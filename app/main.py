@@ -10,9 +10,16 @@ from app.api.routes import auth_router, courses_router
 from app.db.session import SessionLocal
 from app.db.init_db import ensure_admin
 
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+
 app = FastAPI(
-    title=settings.APP_NAME,
+    title="Ghayamathia API",
+    docs_url="/docs",
+    redoc_url=None,
+    openapi_url="/openapi.json",
 )
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
