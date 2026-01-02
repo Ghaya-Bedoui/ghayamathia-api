@@ -1,54 +1,37 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-
-from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from fastapi import Request
 
 from app.core.config import settings
-from app.api.routes import auth_router, courses_router
-from app.db.session import SessionLocal
-from app.db.init_db import ensure_admin
-
-from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
+from app.api import auth, courses
 
 app = FastAPI(
-    title="Ghayamathia API",
+    title=settings.APP_NAME,
     docs_url="/docs",
     redoc_url=None,
     openapi_url="/openapi.json",
 )
 
+# Static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+# Templates
 templates = Jinja2Templates(directory="templates")
 
+# Routers
+app.include_router(auth.router, prefix="/auth", tags=["auth"])
+app.include_router(courses.router, prefix="/courses", tags=["courses"])
 
-app.include_router(auth_router)
-app.include_router(courses_router)
-
-
-@app.get("/", response_class=HTMLResponse)
-def home(request: Request):
-    return templates.TemplateResponse(
-        "index.html",
-        {"request": request}
-    )
-
-@app.get("/admin", response_class=HTMLResponse)
-def admin_page(request: Request):
-    return templates.TemplateResponse("admin.html", {"request": request})
 
 @app.get("/health")
 def health():
     return {"status": "ok"}
 
 
-@app.on_event("startup")
-def startup_event():
-    db = SessionLocal()
-    try:
-        ensure_admin(db)
-    finally:
-        db.close()
+@app.get("/")
+def root():
+    return {
+        "name": "Ghayamathia API",
+        "docs": "/docs",
+        "health": "/health",
+    }
