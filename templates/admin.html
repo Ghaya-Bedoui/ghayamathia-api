@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Ghayamathia</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <div class="brand">Ghayamathia • Admin</div>
+      <div class="links">
+        <a class="btn" href="/">Accueil</a>
+        <a class="btn" href="/docs" target="_blank">Swagger</a>
+      </div>
+    </div>
+
+    <div class="hero">
+      <h1>Créer un cours</h1>
+      <p>Colle ton token admin puis remplis le formulaire.</p>
+    </div>
+
+    <div class="card">
+      <h3>Token Admin</h3>
+      <p style="margin-top:0">Récupère-le via <code>/auth/login</code> (Swagger).</p>
+      <input id="token" placeholder="Bearer xxx (ou colle juste le token)" style="width:100%; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.04); color: white;" />
+    </div>
+
+    <div class="card">
+      <h3>Détails du cours</h3>
+
+      <div style="display:grid; gap:10px; margin-top:10px;">
+        <input id="title" placeholder="Titre" style="width:100%; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.04); color: white;" />
+        <input id="level" placeholder="Niveau (ex: lycée)" style="width:100%; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.04); color: white;" />
+        <input id="duration" type="number" placeholder="Durée (minutes)" value="90" style="width:100%; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.04); color: white;" />
+        <input id="price" type="number" placeholder="Prix (€)" value="20" style="width:100%; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.04); color: white;" />
+
+        <textarea id="description" placeholder="Description" rows="4"
+          style="width:100%; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.04); color: white;"></textarea>
+
+        <label style="color: var(--muted);">
+          <input id="published" type="checkbox" checked />
+          Published
+        </label>
+
+        <a class="btn" href="#" onclick="createCourse(); return false;" style="text-align:center; border-color: rgba(122,162,255,0.6);">
+          Créer le cours
+        </a>
+
+        <div id="result" class="meta"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function normalizeToken(t) {
+      t = (t || "").trim();
+      if (!t) return "";
+      if (t.toLowerCase().startsWith("bearer ")) return t;
+      return "Bearer " + t;
+    }
+
+    async function createCourse() {
+      const token = normalizeToken(document.getElementById("token").value);
+
+      const payload = {
+        title: document.getElementById("title").value.trim(),
+        description: document.getElementById("description").value.trim(),
+        level: document.getElementById("level").value.trim(),
+        duration_minutes: Number(document.getElementById("duration").value || 90),
+        price_eur: Number(document.getElementById("price").value || 0),
+        published: document.getElementById("published").checked
+      };
+
+      const result = document.getElementById("result");
+      result.innerHTML = "Envoi...";
+
+      try {
+        const res = await fetch("/courses", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": token
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          result.innerHTML = `Erreur (${res.status}): ${data.detail || "Impossible de créer le cours"}`;
+          return;
+        }
+
+        result.innerHTML = `✅ Cours créé (id=${data.id}). Va sur la page d’accueil.`;
+      } catch (e) {
+        result.innerHTML = "Erreur réseau.";
+      }
+    }
+  </script>
+</body>
+</html>
