@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="fr">
+<link rel="stylesheet" href="/static/style.css">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ghayamathia</title>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <div class="brand">Ghayamathia</div>
+      <div class="links">
+        <a class="btn" href="/docs" target="_blank">Swagger /docs</a>
+        <a class="btn" href="/health" target="_blank">Health</a>
+      </div>
+    </div>
+
+    <div class="hero">
+      <h1>Cours de maths</h1>
+      <p>Liste des cours (chargée depuis l’API FastAPI).</p>
+    </div>
+
+    <div id="courses" class="grid">
+      <div class="card">
+        <h3>Chargement...</h3>
+        <p>Merci de patienter.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadCourses() {
+      const res = await fetch("/courses?published_only=true");
+      const courses = await res.json();
+
+      if (!courses.length) {
+        document.getElementById("courses").innerHTML =
+          `<div class="card"><h3>Aucun cours</h3><p>Ajoute un cours via Swagger (admin), puis reviens ici.</p></div>`;
+        return;
+      }
+
+      const html = courses.map(c => `
+        <div class="card">
+          <h3>${c.title}</h3>
+          <p>${c.description}</p>
+          <div class="meta">
+            <span class="badge">Niveau: ${c.level}</span>
+            <span class="badge">Durée: ${c.duration_minutes} min</span>
+            <span class="badge">Prix: ${c.price_eur}€</span>
+          </div>
+        </div>
+      `).join("");
+
+      document.getElementById("courses").innerHTML = html;
+    }
+
+    loadCourses();
+  </script>
+</body>
+
+</html>
