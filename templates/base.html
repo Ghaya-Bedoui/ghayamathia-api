@@ -1,46 +1,46 @@
 <!doctype html>
 <html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{{ page_title or "Ghayamathia" }}</title>
-    <link rel="stylesheet" href="/static/styles.css" />
-  </head>
-  <body>
-    <header class="nav">
-      <div class="container nav-inner">
-        <a class="brand" href="/">
-          <span class="brand-dot"></span>
-          <span>Ghayamathia</span>
-        </a>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/static/styles.css" />
+  <title>{{ page_title if page_title else "Ghayamathia" }}</title>
+</head>
 
-        <nav class="nav-links">
-          <a href="#about">À propos</a>
-          <a href="#journey">Parcours</a>
-          <a href="#projects">Projets</a>
-          <a href="#courses">Cours</a>
-        </nav>
+<body>
 
-        <div class="nav-actions">
-          <a class="btn btn-ghost" href="/docs">API</a>
-        </div>
-      </div>
-    </header>
+<!-- ===== NAVBAR ===== -->
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="/">
+      <span class="brand-dot"></span>
+      <span>Ghayamathia</span>
+    </a>
 
-    {% block content %}{% endblock %}
+    <nav class="nav-links">
+      <a href="/courses" class="nav-link">Cours</a>
+      <a href="/#about" class="nav-link">À propos</a>
+      <a href="/#projects" class="nav-link">Projets</a>
+    </nav>
 
-    <footer class="footer">
-      <div class="container footer-inner">
-        <div>
-          <div class="footer-title">Ghaya Bedoui</div>
-          <div class="footer-sub">Cours de maths + projets data — construit avec FastAPI</div>
-        </div>
-        <div class="footer-links">
-          <a href="#about">À propos</a>
-          <a href="#projects">Projets</a>
-          <a href="/docs">Swagger</a>
-        </div>
-      </div>
-    </footer>
-  </body>
+    <div class="nav-actions">
+      <a class="btn btn-secondary" href="/login">Se connecter</a>
+      <a class="btn btn-primary" href="/register">Créer un compte</a>
+      <a class="btn btn-ghost" href="/me">Mon espace</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===== PAGE CONTENT ===== -->
+{% block content %}{% endblock %}
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <span class="muted">© 2026 Ghayamathia — Ghaya Bedoui</span>
+    <a class="link" href="https://github.com/Ghaya-Bedoui" target="_blank">GitHub</a>
+  </div>
+</footer>
+
+</body>
 </html>
