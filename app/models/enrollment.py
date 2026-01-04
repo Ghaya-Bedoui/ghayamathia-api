@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey, String, DateTime, func, UniqueConstraint
-from app.db.base import Base
+from app.db.base_class import Base
+
 
 class Enrollment(Base):
     __tablename__ = "enrollments"
