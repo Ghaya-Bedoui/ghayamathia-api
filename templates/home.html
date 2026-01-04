@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-left">
+        <div class="badge">Maths • Collège → Terminale</div>
+        <h1>Apprendre les maths simplement, avec méthode.</h1>
+        <p class="lead">
+          Je suis <strong>Ghaya Bedoui</strong>. Je conçois des cours structurés, des exercices corrigés,
+          et un suivi clair — et je construis ce produit de A à Z (API + site) pour qu’il soit vraiment utile.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#courses">Voir les cours</a>
+          <a class="btn btn-secondary" href="#projects">Voir mes projets</a>
+        </div>
+
+        <div class="mini-stats">
+          <div class="mini-stat">
+            <div class="mini-stat-kpi">{{ published_count }}</div>
+            <div class="mini-stat-label">cours publiés</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-kpi">FastAPI</div>
+            <div class="mini-stat-label">backend</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-kpi">PostgreSQL</div>
+            <div class="mini-stat-label">base de données</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-card">
+          <div class="hero-card-title">Ce que tu trouveras ici</div>
+          <ul class="checklist">
+            <li>📌 Cours par niveau</li>
+            <li>✅ Exercices + corrigés</li>
+            <li>🧠 Méthode & conseils</li>
+            <li>📈 Suivi de progression (à venir)</li>
+          </ul>
+          <div class="hero-card-note">
+            Objectif : un vrai produit, évolutif, et pro.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section section-grad-1">
+    <div class="container section-grid">
+      <div>
+        <h2>À propos</h2>
+        <p class="muted">
+          Je m’appelle <strong>Ghaya Bedoui</strong>. Je construis Ghayamathia pour proposer
+          une expérience claire : cours bien structurés, progression, et contenu de qualité.
+        </p>
+        <div class="pill-row">
+          <span class="pill">Pédagogie</span>
+          <span class="pill">Structuration</span>
+          <span class="pill">Data / Backend</span>
+          <span class="pill">Produit</span>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-title">Vision</div>
+        <p class="muted">
+          Un espace simple : découvrir un cours, s’inscrire, apprendre, suivre sa progression.
+          (Paiement plus tard — d’abord on fait un produit solide.)
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOURNEY -->
+  <section id="journey" class="section section-grad-2">
+    <div class="container">
+      <h2>Parcours</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-title">Formation & montée en compétences</div>
+            <div class="muted">Mathématiques, data, backend — approche structurée et orientée résultats.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-title">Projets concrets</div>
+            <div class="muted">APIs, bases de données, NLP, dashboards — livrables prêts à l’emploi.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-title">Ghayamathia</div>
+            <div class="muted">Un produit réel : cours, élèves, inscriptions, admin — déploiement continu.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Projets</h2>
+        <p class="muted">Une sélection (tu pourras remplacer par tes vrais projets + liens GitHub).</p>
+      </div>
+
+      <div class="grid cards">
+        {% for p in projects %}
+          <article class="card">
+            <div class="card-top">
+              <h3>{{ p.title }}</h3>
+              <a class="link" href="{{ p.github_url }}" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <p class="muted">{{ p.description }}</p>
+            <div class="tags">
+              {% for t in p.stack %}
+                <span class="tag">{{ t }}</span>
+              {% endfor %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSES -->
+  <section id="courses" class="section section-grad-3">
+    <div class="container">
+      <div class="section-head">
+        <h2>Cours publiés</h2>
+        <p class="muted">Les cours visibles ici viennent de ta base de données.</p>
+      </div>
+
+      {% if courses and courses|length > 0 %}
+        <div class="grid cards">
+          {% for c in courses %}
+            <article class="card course-card">
+              <div class="card-top">
+                <h3>{{ c.title }}</h3>
+                <span class="level">{{ c.level }}</span>
+              </div>
+              <p class="muted">{{ c.description }}</p>
+              <div class="course-meta">
+                <span>{{ c.duration_minutes }} min</span>
+                <strong>{{ c.price_eur }} €</strong>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty">
+          Aucun cours publié pour le moment.
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+</main>
+{% endblock %}

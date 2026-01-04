@@ -1,12 +1,16 @@
 from fastapi import FastAPI, Request, Depends
+from sqlalchemy.orm import Session
+
+from app.api.deps import get_db
+from app.models.course import Course
+from app.content.projects import PROJECTS
+
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from sqlalchemy.orm import Session
+
 
 from app.core.config import settings
-from app.api.deps import get_db
-from app.models.course import Course
 from app.api.routes import auth, courses
 
 app = FastAPI(
@@ -38,7 +42,16 @@ def home(request: Request, db: Session = Depends(get_db)):
         .order_by(Course.id.desc())
         .all()
     )
+
+    published_count = len(courses)
+
     return templates.TemplateResponse(
-        "index.html",
-        {"request": request, "courses": courses},
+        "home.html",
+        {
+            "request": request,
+            "page_title": "Ghayamathia — Ghaya Bedoui",
+            "courses": courses,
+            "projects": PROJECTS,
+            "published_count": published_count,
+        },
     )

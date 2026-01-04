@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ page_title or "Ghayamathia" }}</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <div class="container nav-inner">
+        <a class="brand" href="/">
+          <span class="brand-dot"></span>
+          <span>Ghayamathia</span>
+        </a>
+
+        <nav class="nav-links">
+          <a href="#about">À propos</a>
+          <a href="#journey">Parcours</a>
+          <a href="#projects">Projets</a>
+          <a href="#courses">Cours</a>
+        </nav>
+
+        <div class="nav-actions">
+          <a class="btn btn-ghost" href="/docs">API</a>
+        </div>
+      </div>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div>
+          <div class="footer-title">Ghaya Bedoui</div>
+          <div class="footer-sub">Cours de maths + projets data — construit avec FastAPI</div>
+        </div>
+        <div class="footer-links">
+          <a href="#about">À propos</a>
+          <a href="#projects">Projets</a>
+          <a href="/docs">Swagger</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
