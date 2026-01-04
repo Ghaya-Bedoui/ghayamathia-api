@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="section">
+  <div class="container" style="max-width:700px;">
+    <div class="card">
+      <h2 style="margin-top:0;">{{ "Créer un cours" if mode=="create" else "Modifier le cours" }}</h2>
+
+      <form method="post" action="{{ '/admin/courses/new' if mode=='create' else '/admin/courses/' ~ course.id ~ '/edit' }}"
+            style="display:flex; flex-direction:column; gap:10px;">
+        <input class="input" name="title" placeholder="Titre" value="{{ course.title if course else '' }}" required />
+        <textarea class="input" name="description" placeholder="Description" rows="4">{{ course.description if course else '' }}</textarea>
+        <input class="input" name="level" placeholder="Niveau (ex: Terminale)" value="{{ course.level if course else '' }}" />
+        <input class="input" type="number" name="duration_minutes" placeholder="Durée (min)"
+               value="{{ course.duration_minutes if course else 60 }}" required />
+        <input class="input" type="number" name="price_eur" placeholder="Prix (EUR)"
+               value="{{ course.price_eur if course else 20 }}" required />
+
+        <label class="muted" style="display:flex; align-items:center; gap:10px;">
+          <input type="hidden" name="published" value="false" />
+          <input type="checkbox" name="published" value="true" {% if course and course.published %}checked{% endif %} />
+          Publier le cours
+        </label>
+
+        <button class="btn btn-primary" type="submit">Enregistrer</button>
+        <a class="btn btn-secondary" href="/admin/courses">Retour</a>
+      </form>
+    </div>
+  </div>
+</main>
+{% endblock %}

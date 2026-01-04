@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="section">
+  <div class="container" style="max-width:520px;">
+    <div class="card">
+      <h2 style="margin-top:0;">Connexion</h2>
+      {% if error %}<div class="empty" style="border-style:solid;">{{ error }}</div>{% endif %}
+      <form method="post" action="/login" style="display:flex; flex-direction:column; gap:10px;">
+        <input class="input" type="email" name="email" placeholder="Email" required />
+        <input class="input" type="password" name="password" placeholder="Mot de passe" required />
+        <button class="btn btn-primary" type="submit">Se connecter</button>
+      </form>
+      <p class="muted" style="margin-top:12px;">Pas de compte ? <a class="link" href="/register">Créer un compte</a></p>
+    </div>
+  </div>
+</main>
+{% endblock %}

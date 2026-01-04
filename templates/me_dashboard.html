@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>Mon espace</h2>
+      <p class="muted">Connecté en tant que {{ user.email }} • <a class="link" href="/logout">Déconnexion</a></p>
+    </div>
+
+    <h3>Mes inscriptions</h3>
+    {% if enrollments and enrollments|length > 0 %}
+      <div class="grid cards">
+        {% for e in enrollments %}
+          {% set c = courses_map.get(e.course_id) %}
+          <article class="card">
+            <div class="card-top">
+              <h3 style="margin:0;">{{ c.title if c else "Cours" }}</h3>
+              <span class="pill">{{ e.status }}</span>
+            </div>
+            {% if c %}
+              <p class="muted">{{ c.description }}</p>
+              <a class="btn btn-secondary" href="/courses/{{ c.id }}">Voir le cours</a>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">Aucune inscription. Va sur <a class="link" href="/courses">Cours</a>.</div>
+    {% endif %}
+
+    {% if user.role == "admin" %}
+      <div style="margin-top:18px;">
+        <a class="btn btn-primary" href="/admin">Accéder à l’admin</a>
+      </div>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

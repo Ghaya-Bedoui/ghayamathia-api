@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>Admin</h2>
+      <p class="muted">Connecté en tant que {{ admin.email }} • <a class="link" href="/logout">Déconnexion</a></p>
+    </div>
+
+    <div class="grid cards">
+      <div class="card">
+        <h3>Inscriptions en attente</h3>
+        <div class="mini-stat-kpi">{{ pending_count }}</div>
+        <a class="btn btn-secondary" href="/admin/enrollments">Gérer</a>
+      </div>
+      <div class="card">
+        <h3>Cours</h3>
+        <div class="mini-stat-kpi">{{ courses_count }}</div>
+        <a class="btn btn-secondary" href="/admin/courses">Gérer</a>
+      </div>
+      <div class="card">
+        <h3>Utilisateurs</h3>
+        <div class="mini-stat-kpi">{{ users_count }}</div>
+        <div class="muted">Gestion plus tard</div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="section">
+  <div class="container">
+    <a class="link" href="/courses">← Retour</a>
+
+    <div class="card" style="margin-top:12px;">
+      <div class="card-top">
+        <h2 style="margin:0;">{{ course.title }}</h2>
+        <span class="pill">{{ course.level }}</span>
+      </div>
+      <p class="muted" style="margin-top:10px;">{{ course.description }}</p>
+
+      <div class="course-meta" style="margin-top:14px;">
+        <span>{{ course.duration_minutes }} min</span>
+        <strong>{{ course.price_eur }} €</strong>
+      </div>
+
+      <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+        {% if not user %}
+          <a class="btn btn-primary" href="/login">Se connecter pour s’inscrire</a>
+          <a class="btn btn-secondary" href="/register">Créer un compte</a>
+        {% else %}
+          {% if already_enrolled %}
+            <div class="pill">Déjà inscrit ✅</div>
+            <a class="btn btn-secondary" href="/me">Mon espace</a>
+          {% else %}
+            <form method="post" action="/courses/{{ course.id }}/enroll">
+              <button class="btn btn-primary" type="submit">S’inscrire</button>
+            </form>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

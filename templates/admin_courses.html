@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>Admin • Cours</h2>
+      <a class="btn btn-primary" href="/admin/courses/new">Nouveau cours</a>
+    </div>
+
+    <div class="grid cards">
+      {% for c in courses %}
+      <article class="card">
+        <div class="card-top">
+          <h3 style="margin:0;">{{ c.title }}</h3>
+          <span class="pill">{{ "Publié" if c.published else "Brouillon" }}</span>
+        </div>
+        <p class="muted">{{ c.description }}</p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn btn-secondary" href="/admin/courses/{{ c.id }}/edit">Modifier</a>
+          <form method="post" action="/admin/courses/{{ c.id }}/delete">
+            <button class="btn btn-ghost" type="submit">Supprimer</button>
+          </form>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+{% endblock %}

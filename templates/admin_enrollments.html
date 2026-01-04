@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>Admin • Inscriptions</h2>
+      <a class="btn btn-secondary" href="/admin">Dashboard</a>
+    </div>
+
+    {% if enrollments and enrollments|length > 0 %}
+      <div class="grid cards">
+        {% for e in enrollments %}
+          {% set u = users_map.get(e.user_id) %}
+          {% set c = courses_map.get(e.course_id) %}
+          <article class="card">
+            <div class="card-top">
+              <h3 style="margin:0;">{{ c.title if c else 'Cours' }}</h3>
+              <span class="pill">{{ e.status }}</span>
+            </div>
+            <p class="muted">Élève : {{ u.email if u else 'User' }}</p>
+
+            <form method="post" action="/admin/enrollments/{{ e.id }}/set" style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn btn-secondary" name="status_value" value="pending" type="submit">Pending</button>
+              <button class="btn btn-primary" name="status_value" value="accepted" type="submit">Accepter</button>
+              <button class="btn btn-ghost" name="status_value" value="rejected" type="submit">Refuser</button>
+            </form>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">Aucune inscription.</div>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}
