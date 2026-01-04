@@ -8,7 +8,8 @@ class Settings(BaseSettings):
     )
 
     APP_NAME: str = "Ghayamathia API"
-    ENV: str = "dev"
+    ENV: str = "production"
+
 
     # Format attendu :
     # postgresql+psycopg2://USER:PASSWORD@HOST/DB?sslmode=require
